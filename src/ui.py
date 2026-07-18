@@ -1,8 +1,13 @@
 import hashlib
+<<<<<<< HEAD
 import re
 import streamlit as st
 from src.ai import analyze_job
 from database.db import save_job, save_job_analysis, save_resume_match
+=======
+import streamlit as st
+from src.ai import analyze_job
+>>>>>>> f978b74dd193c0bf48fdf227bfb0cc6a28a018b9
 
 
 def display_job_card(job):
@@ -44,10 +49,13 @@ def display_job_card(job):
                     analysis = analyze_job(job)
                 st.markdown(analysis)
 
+<<<<<<< HEAD
                 # Persist the job (in case it wasn't saved via a search) and its analysis
                 job_local_id = save_job(job)
                 save_job_analysis(job_local_id, analysis)
 
+=======
+>>>>>>> f978b74dd193c0bf48fdf227bfb0cc6a28a018b9
         if col_b2 is not None:
             with col_b2:
                 if st.button("📊 Analyze Resume Fit", key=f"fit_{unique_key}", use_container_width=True):
@@ -56,6 +64,7 @@ def display_job_card(job):
                         fit_analysis = analyze_resume_match(st.session_state.resume_text, job)
                     display_resume_analysis(fit_analysis)
 
+<<<<<<< HEAD
                     # Persist the job and the resume-fit result to SQLite
                     resume_id = st.session_state.get("resume_id")
                     if resume_id:
@@ -64,6 +73,8 @@ def display_job_card(job):
                         score_value = int(score_match.group(1)) if score_match else None
                         save_resume_match(resume_id, job_local_id, score_value, fit_analysis)
 
+=======
+>>>>>>> f978b74dd193c0bf48fdf227bfb0cc6a28a018b9
         description = job.get("job_description")
 
         if description:

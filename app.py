@@ -2,7 +2,10 @@ import streamlit as st
 from src.jobs import search_jobs
 from src.ui import display_job_card
 from src.pdf_reader import extract_text_from_pdf
+<<<<<<< HEAD
 from database.db import init_db, save_resume, save_search, save_job
+=======
+>>>>>>> f978b74dd193c0bf48fdf227bfb0cc6a28a018b9
 
 st.set_page_config(
     page_title="Job Search AI Agent",
@@ -10,6 +13,7 @@ st.set_page_config(
     layout="wide"
 )
 
+<<<<<<< HEAD
 # Create database/app.db and its tables on first run (no-op if they already exist)
 init_db()
 
@@ -17,6 +21,10 @@ if "jobs" not in st.session_state:
     st.session_state.jobs = []
 if "resume_id" not in st.session_state:
     st.session_state.resume_id = None
+=======
+if "jobs" not in st.session_state:
+    st.session_state.jobs = []
+>>>>>>> f978b74dd193c0bf48fdf227bfb0cc6a28a018b9
 
 st.title("💼 Job Search AI Agent")
 st.write("Find jobs instantly using AI-powered search.")
@@ -38,11 +46,14 @@ if uploaded_file is not None:
     with st.spinner("Extracting text from resume..."):
         resume_text = extract_text_from_pdf(uploaded_file)
         st.session_state.resume_text = resume_text
+<<<<<<< HEAD
 
         # Persist the resume to SQLite so it's available across sessions
         if resume_text and st.session_state.get("resume_filename") != uploaded_file.name:
             st.session_state.resume_id = save_resume(uploaded_file.name, resume_text)
             st.session_state.resume_filename = uploaded_file.name
+=======
+>>>>>>> f978b74dd193c0bf48fdf227bfb0cc6a28a018b9
         
     # Render an expander to show the extracted text for testing
     with st.expander("📄 Extracted Resume Text (Testing)"):
@@ -86,6 +97,7 @@ if st.button("🔍 Search Jobs", use_container_width=True, type="primary"):
         query += f" jobs in {location}"
 
     with st.spinner("Searching..."):
+<<<<<<< HEAD
         results = search_jobs(query)
         st.session_state.jobs = results
 
@@ -93,6 +105,9 @@ if st.button("🔍 Search Jobs", use_container_width=True, type="primary"):
         search_id = save_search(job_title, location, employment_filter, keyword_filter, query)
         for job in results:
             save_job(job, search_id=search_id)
+=======
+        st.session_state.jobs = search_jobs(query)
+>>>>>>> f978b74dd193c0bf48fdf227bfb0cc6a28a018b9
 
 filtered = []
 for job in st.session_state.jobs:

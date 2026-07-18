@@ -2,12 +2,20 @@ import os
 import requests
 import streamlit as st
 from dotenv import load_dotenv
+<<<<<<< HEAD
 
+=======
+print("API Key Loaded:", bool(RAPIDAPI_KEY))
+>>>>>>> f978b74dd193c0bf48fdf227bfb0cc6a28a018b9
 load_dotenv()
 
 # Read from Streamlit Secrets first, then .env
 API_KEY = st.secrets.get("RAPIDAPI_KEY", os.getenv("RAPIDAPI_KEY"))
+<<<<<<< HEAD
 API_HOST = st.secrets.get("RAPIDAPI_HOST", os.getenv("RAPIDAPI_HOST", "https://jsearch.p.rapidapi.com/search?"))
+=======
+API_HOST = st.secrets.get("RAPIDAPI_HOST", os.getenv("RAPIDAPI_HOST", "jsearch.p.rapidapi.com"))
+>>>>>>> f978b74dd193c0bf48fdf227bfb0cc6a28a018b9
 
 
 MOCK_JOBS = [
@@ -78,14 +86,24 @@ def search_jobs(query):
     url = f"https://{API_HOST}/search"
 
     headers = {
+<<<<<<< HEAD
         "X-RapidAPI-Key": API_KEY,
         "X-RapidAPI-Host": API_HOST
+=======
+        "x-rapidapi-key": API_KEY,
+        "x-rapidapi-host": API_HOST
+>>>>>>> f978b74dd193c0bf48fdf227bfb0cc6a28a018b9
     }
 
     params = {
         "query": query,
         "page": 1,
+<<<<<<< HEAD
         "num_pages": 1
+=======
+        "num_pages": 1,
+        "country": "india"
+>>>>>>> f978b74dd193c0bf48fdf227bfb0cc6a28a018b9
     }
 
     try:
