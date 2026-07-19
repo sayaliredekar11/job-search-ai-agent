@@ -76,6 +76,7 @@ CREATE TABLE IF NOT EXISTS chat_messages (
 
 CREATE INDEX IF NOT EXISTS idx_chat_messages_resume_id ON chat_messages (resume_id);
 
+
 CREATE INDEX IF NOT EXISTS idx_jobs_search_id ON jobs (search_id);
 CREATE INDEX IF NOT EXISTS idx_job_analysis_job_id ON job_analysis (job_id);
 CREATE INDEX IF NOT EXISTS idx_resume_match_resume_id ON resume_match (resume_id);

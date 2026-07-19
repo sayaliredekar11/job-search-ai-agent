@@ -31,9 +31,7 @@ def init_db():
         conn.executescript(schema)
 
 
-# ---------------------------------------------------------------------------
 # Resumes  (src/pdf_reader.py output)
-# ---------------------------------------------------------------------------
 
 def save_resume(filename, resume_text):
     """Persists an uploaded resume's extracted text. Returns the new resume id."""
@@ -61,9 +59,7 @@ def get_all_resumes():
         return [dict(r) for r in rows]
 
 
-# ---------------------------------------------------------------------------
 # Searches  (app.py search form)
-# ---------------------------------------------------------------------------
 
 def save_search(job_title, location, employment_filter, company_filter, query_string):
     """Persists one search submission. Returns the new search id."""
@@ -85,9 +81,7 @@ def get_recent_searches(limit=20):
         return [dict(r) for r in rows]
 
 
-# ---------------------------------------------------------------------------
 # Jobs  (src/jobs.py search_jobs() results, real or MOCK_JOBS fallback)
-# ---------------------------------------------------------------------------
 
 def save_job(job, search_id=None):
     """Persists (or updates) a single job dict as returned by search_jobs().
@@ -161,9 +155,7 @@ def get_job_by_local_id(local_id):
         return d
 
 
-# ---------------------------------------------------------------------------
 # Job analysis  (src/ai.py analyze_job() -> "Analyze with AI" button)
-# ---------------------------------------------------------------------------
 
 def save_job_analysis(job_local_id, analysis_text):
     with get_connection() as conn:
@@ -183,9 +175,7 @@ def get_analysis_history_for_job(job_local_id):
         return [dict(r) for r in rows]
 
 
-# ---------------------------------------------------------------------------
 # Resume-fit matches  (src/ai.py analyze_resume_match() -> "Analyze Resume Fit")
-# ---------------------------------------------------------------------------
 
 def save_resume_match(resume_id, job_local_id, match_score, analysis_text):
     with get_connection() as conn:
@@ -244,3 +234,8 @@ if __name__ == "__main__":
     # Quick manual sanity check: `python database/db.py`
     init_db()
     print(f"Database initialized at {DB_PATH}")
+
+
+
+
+

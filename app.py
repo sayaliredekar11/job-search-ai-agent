@@ -2,22 +2,30 @@ import streamlit as st
 from src.jobs import search_jobs
 from src.ui import display_job_card
 from src.pdf_reader import extract_text_from_pdf
+
 from database.db import init_db, save_resume, save_search, save_job
 from src.chatbot import get_chat_response
 from database.db import init_db, save_resume, save_search, save_job, save_chat_message, get_chat_history
+
+
+from database.db import init_db, save_resume, save_search, save_job
+
 st.set_page_config(
     page_title="Job Search AI Agent",
     page_icon="💼",
     layout="wide"
 )
 
-# Create database/app.db and its tables on first run (no-op if they already exist)
+
 init_db()
 
 if "jobs" not in st.session_state:
     st.session_state.jobs = []
 if "resume_id" not in st.session_state:
     st.session_state.resume_id = None
+
+if "jobs" not in st.session_state:
+    st.session_state.jobs = []
 
 st.title("💼 Job Search AI Agent")
 st.write("Find jobs instantly using AI-powered search.")
@@ -40,10 +48,12 @@ if uploaded_file is not None:
         resume_text = extract_text_from_pdf(uploaded_file)
         st.session_state.resume_text = resume_text
 
+
         # Persist the resume to SQLite so it's available across sessions
         if resume_text and st.session_state.get("resume_filename") != uploaded_file.name:
             st.session_state.resume_id = save_resume(uploaded_file.name, resume_text)
             st.session_state.resume_filename = uploaded_file.name
+
         
     # Render an expander to show the extracted text for testing
     with st.expander("📄 Extracted Resume Text (Testing)"):
@@ -87,6 +97,7 @@ if st.button("🔍 Search Jobs", use_container_width=True, type="primary"):
         query += f" jobs in {location}"
 
     with st.spinner("Searching..."):
+
         results = search_jobs(query)
         st.session_state.jobs = results
 
@@ -94,6 +105,8 @@ if st.button("🔍 Search Jobs", use_container_width=True, type="primary"):
         search_id = save_search(job_title, location, employment_filter, keyword_filter, query)
         for job in results:
             save_job(job, search_id=search_id)
+
+        st.session_state.jobs = search_jobs(query)
 
 filtered = []
 for job in st.session_state.jobs:
@@ -119,10 +132,11 @@ if filtered:
 elif st.session_state.jobs:
     st.warning("⚠️ No jobs found matching the selected filters.")
 else:
+
     st.info("💡 Enter a job title and location above and click 'Search Jobs' to get started!")
 
 st.divider()
-st.subheader("💬 Career Chatbot")
+st.subheader("💬Chatbot")
 
 if "chat_history" not in st.session_state:
     st.session_state.chat_history = get_chat_history(st.session_state.get("resume_id"))
@@ -147,3 +161,6 @@ if user_message:
     st.session_state.chat_history.append({"role": "model", "content": reply})
     save_chat_message("model", reply, st.session_state.get("resume_id"))
     st.rerun()
+
+    st.info("💡 Enter a job title and location above and click 'Search Jobs' to get started!")
+

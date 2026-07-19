@@ -1,8 +1,10 @@
 import hashlib
+
 import re
 import streamlit as st
 from src.ai import analyze_job
 from database.db import save_job, save_job_analysis, save_resume_match
+
 
 
 def display_job_card(job):
@@ -44,9 +46,10 @@ def display_job_card(job):
                     analysis = analyze_job(job)
                 st.markdown(analysis)
 
-                # Persist the job (in case it wasn't saved via a search) and its analysis
+
                 job_local_id = save_job(job)
                 save_job_analysis(job_local_id, analysis)
+
 
         if col_b2 is not None:
             with col_b2:
@@ -56,13 +59,14 @@ def display_job_card(job):
                         fit_analysis = analyze_resume_match(st.session_state.resume_text, job)
                     display_resume_analysis(fit_analysis)
 
-                    # Persist the job and the resume-fit result to SQLite
+
                     resume_id = st.session_state.get("resume_id")
                     if resume_id:
                         job_local_id = save_job(job)
                         score_match = re.search(r"(\d+)\s*/\s*100", fit_analysis)
                         score_value = int(score_match.group(1)) if score_match else None
                         save_resume_match(resume_id, job_local_id, score_value, fit_analysis)
+
 
         description = job.get("job_description")
 

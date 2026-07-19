@@ -3,11 +3,16 @@ import requests
 import streamlit as st
 from dotenv import load_dotenv
 
+
+
 load_dotenv()
 
 # Read from Streamlit Secrets first, then .env
 API_KEY = st.secrets.get("RAPIDAPI_KEY", os.getenv("RAPIDAPI_KEY"))
+
+API_HOST = st.secrets.get("RAPIDAPI_HOST", os.getenv("RAPIDAPI_HOST", "https://jsearch.p.rapidapi.com/search?"))
 API_HOST = st.secrets.get("RAPIDAPI_HOST", os.getenv("RAPIDAPI_HOST", "jsearch.p.rapidapi.com"))
+
 
 
 MOCK_JOBS = [
@@ -76,19 +81,21 @@ MOCK_JOBS = [
 
 def search_jobs(query):
     url = f"https://{API_HOST}/search"
-    
+
     headers = {
         "X-RapidAPI-Key": API_KEY,
         "X-RapidAPI-Host": API_HOST
+
     }
 
     params = {
         "query": query,
         "page": 1,
-        "num_pages": 1
+        "num_pages": 1,
+        "country": "india"
+
     }
-    
-    
+
     try:
         response = requests.get(
             url,
@@ -97,7 +104,6 @@ def search_jobs(query):
             timeout=20
         )
 
-         
         response.raise_for_status()
 
         data = response.json()
